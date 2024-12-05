@@ -1,6 +1,6 @@
-import "./AddTaskForm.sass";
+import "./AddTaskForm.scss";
 import { useState } from "react";
-import postToDoTask from "../../api/postToDoTask.jsx";
+import { postToDoTask } from "../../api/todo.js";
 import maxMinValidationValues from "../../maxMinValidationValues.jsx";
 
 export default function AddTaskForm({ refresh }) {
@@ -17,19 +17,19 @@ export default function AddTaskForm({ refresh }) {
     event.preventDefault();
     if (maxMinValidationValues(value, 2, 64)) {
       setIsValid(false);
-    } else {
-      setLoading(true);
-      setError(null);
-      setIsValid(true);
-      try {
-        const data = await postToDoTask(value);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-        setValue("");
-        await refresh();
-      }
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    setIsValid(true);
+    try {
+      const data = await postToDoTask(value);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+      setValue("");
+      await refresh();
     }
   };
 

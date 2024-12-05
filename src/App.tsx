@@ -2,7 +2,7 @@ import AddTaskForm from "./components/AddTaskForm/AddTaskForm.jsx";
 import Tabs from "./components/Tabs/Tabs.jsx"
 import ToDoList from "./components/ToDoList/ToDoList.jsx";
 import { useState, useEffect } from "react";
-import getToDoList from "./api/getToDoList.jsx"
+import {getToDoList} from "./api/todo.js"
 import "./App.css";
 
 function App() {

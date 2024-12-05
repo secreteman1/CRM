@@ -1,10 +1,12 @@
 import { useState } from "react";
 import editIcon from "../../assets/edit.png";
 import deleteIcon from "../../assets/delete.png";
-import deleteToDoTask from "../../api/deleteToDoTask.jsx";
-import putToDoTaskStatus from "../../api/putToDoTaskStatus.jsx";
 import maxMinValidationValues from "../../maxMinValidationValues.jsx";
-import putToDoTaskValue from "../../api/putToDoTaskValue.jsx";
+import {
+  putToDoTaskValue,
+  putToDoTaskStatus,
+  deleteToDoTask,
+} from "../../api/todo.js";
 
 export default function ToDoListContent({ todo, refresh }) {
   const [loading, setLoading] = useState(false);
@@ -28,10 +30,9 @@ export default function ToDoListContent({ todo, refresh }) {
   };
 
   const handleCancelClick = async () => {
-    if (isEditingNow) {
-      setEditId(null);
-      setIsValid(true);
-    }
+    setEditId(null);
+    setEditingNow(false);
+    setIsValid(true);
   };
 
   const handleChangeCheckbox = async (value, currentStatus) => {
@@ -52,29 +53,27 @@ export default function ToDoListContent({ todo, refresh }) {
   }
 
   const handeEditClick = async (value) => {
-    if (!isEditingNow) {
-      setEditId(value);
-      setInputValue(todo.title);
-      setEditingNow(true);
-    }
+    setEditId(value);
+    setInputValue(todo.title);
+    setEditingNow(true);
   };
 
   const handeSaveClick = async (value) => {
     if (maxMinValidationValues(inputValue, 2, 64)) {
       setIsValid(false);
-    } else {
-      setLoading(true);
-      setIsValid(true);
-      try {
-        const data = await putToDoTaskValue(value, inputValue);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-        setEditingNow(false);
-        setEditId(null);
-        await refresh();
-      }
+      return;
+    }
+    setLoading(true);
+    setIsValid(true);
+    try {
+      const data = await putToDoTaskValue(value, inputValue);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+      setEditingNow(false);
+      setEditId(null);
+      await refresh();
     }
   };
 
@@ -136,7 +135,7 @@ export default function ToDoListContent({ todo, refresh }) {
   return (
     <>
       <div className="content-wrapper">
-        {editId === todo.id ? saveCancelTemplate : editDeleteTemplate}
+        {isEditingNow ? saveCancelTemplate : editDeleteTemplate}
       </div>
       {!isValid && (
         <div className="error-container">

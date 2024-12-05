@@ -1,5 +1,5 @@
-import "./Button.sass";
-export default function Button({ title, className, onClick }) {
+import "./Tab.scss";
+export default function Tab({ title, className, onClick }) {
   return (
     <>
       <button className={className} onClick={onClick}>

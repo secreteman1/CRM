@@ -1,4 +1,4 @@
-import Button from "../Button/Button.jsx";
+import Tab from "../Tab/Tab.jsx";
 export default function Tabs({
   category,
   quantityInformation,
@@ -6,21 +6,21 @@ export default function Tabs({
 }) {
   return (
     <div className="button-group">
-      <Button
+      <Tab
         className={
           category === "all" ? "no-background-picked" : "no-background"
         }
         title={`Все (${quantityInformation.all})`}
         onClick={() => handleCategoryButtonClick("all")}
       />
-      <Button
+      <Tab
         className={
           category === "inWork" ? "no-background-picked" : "no-background"
         }
         title={`В работе (${quantityInformation.inWork})`}
         onClick={() => handleCategoryButtonClick("inWork")}
       />
-      <Button
+      <Tab
         className={
           category === "completed" ? "no-background-picked" : "no-background"
         }
