@@ -1,4 +1,4 @@
-export async function putToDoTaskValue(value, inputValue) {
+export async function putToDoTaskValue(value: number, inputValue: string) {
   const response = await fetch(`https://easydev.club/api/v1//todos/${value}`, {
     method: "PUT",
     body: JSON.stringify({ title: inputValue }),
@@ -9,7 +9,7 @@ export async function putToDoTaskValue(value, inputValue) {
   return response.json();
 }
 
-export async function putToDoTaskStatus(value, newStatus) {
+export async function putToDoTaskStatus(value: number, newStatus: boolean) {
   const response = await fetch(`https://easydev.club/api/v1//todos/${value}`, {
     method: "PUT",
     body: JSON.stringify({ isDone: newStatus }),
@@ -20,7 +20,7 @@ export async function putToDoTaskStatus(value, newStatus) {
   return response.json();
 }
 
-export async function postToDoTask(value) {
+export async function postToDoTask(value: string) {
   const response = await fetch("https://easydev.club/api/v1/todos", {
     method: "POST",
     body: JSON.stringify({ title: value, isDone: false }),
@@ -32,7 +32,7 @@ export async function postToDoTask(value) {
   return await response.json();
 }
 
-export async function getToDoList(category) {
+export async function getToDoList(category: string) {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${category}`,
     { method: "GET" }
@@ -43,7 +43,7 @@ export async function getToDoList(category) {
   return await response.json();
 }
 
-export async function deleteToDoTask(value) {
+export async function deleteToDoTask(value: number) {
   const response = await fetch(`https://easydev.club/api/v1//todos/${value}`, {
     method: "DELETE",
   });

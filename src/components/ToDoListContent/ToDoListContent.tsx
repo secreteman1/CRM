@@ -1,64 +1,75 @@
 import { useState } from "react";
 import editIcon from "../../assets/edit.png";
 import deleteIcon from "../../assets/delete.png";
-import maxMinValidationValues from "../../maxMinValidationValues.jsx";
+import maxMinValidationValues from "../../maxMinValidationValues.ts";
 import {
   putToDoTaskValue,
   putToDoTaskStatus,
   deleteToDoTask,
 } from "../../api/todo.js";
+import { Todo } from "../ToDoList/ToDoList.tsx";
 
-export default function ToDoListContent({ todo, refresh }) {
+const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
+  props
+) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [editId, setEditId] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [isEditingNow, setEditingNow] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const handleDeleteClick = async (value) => {
+  const handleDeleteClick = async (value: number) => {
     setLoading(true);
     setIsValid(true);
     try {
-      const data = await deleteToDoTask(value);
+      await deleteToDoTask(value);
     } catch (error) {
-      setError(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
-      await refresh();
+      await props.refresh();
     }
   };
 
   const handleCancelClick = async () => {
-    setEditId(null);
     setEditingNow(false);
     setIsValid(true);
   };
 
-  const handleChangeCheckbox = async (value, currentStatus) => {
+  const handleChangeCheckbox = async (
+    value: number,
+    currentStatus: boolean
+  ) => {
     setLoading(true);
     try {
       const newStatus = !currentStatus;
-      const data = await putToDoTaskStatus(value, newStatus);
+      await putToDoTaskStatus(value, newStatus);
     } catch (error) {
-      setError(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
-      await refresh();
+      await props.refresh();
     }
   };
 
-  function handleInputValueChange(event) {
+  function handleInputValueChange(event: React.ChangeEvent<HTMLInputElement>) {
     setInputValue(event.target.value);
   }
 
-  const handeEditClick = async (value) => {
-    setEditId(value);
-    setInputValue(todo.title);
+  const handeEditClick = async () => {
+    setInputValue(props.todo.title);
     setEditingNow(true);
   };
 
-  const handeSaveClick = async (value) => {
+  const handeSaveClick = async (value: number) => {
     if (maxMinValidationValues(inputValue, 2, 64)) {
       setIsValid(false);
       return;
@@ -66,34 +77,39 @@ export default function ToDoListContent({ todo, refresh }) {
     setLoading(true);
     setIsValid(true);
     try {
-      const data = await putToDoTaskValue(value, inputValue);
+      await putToDoTaskValue(value, inputValue);
     } catch (error) {
-      setError(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
       setEditingNow(false);
-      setEditId(null);
-      await refresh();
+      await props.refresh();
     }
   };
 
-  let editDeleteTemplate = (
+  const editDeleteTemplate = (
     <>
       <div className="checkbox-input">
         <input
           type="checkbox"
-          checked={todo.isDone}
-          onChange={() => handleChangeCheckbox(todo.id, todo.isDone)}
+          checked={props.todo.isDone}
+          onChange={() =>
+            handleChangeCheckbox(props.todo.id, props.todo.isDone)
+          }
         ></input>
-        <p className={todo.isDone ? "done-p" : null}>{todo.title}</p>
+        <p className={props.todo.isDone ? "done-p" : ""}>{props.todo.title}</p>
       </div>
       <div className="buttons-div">
-        <button className="edit-button" onClick={() => handeEditClick(todo.id)}>
+        <button className="edit-button" onClick={() => handeEditClick()}>
           <img src={editIcon} alt="edit-picture"></img>
         </button>
         <button
           className="delete-button"
-          onClick={() => handleDeleteClick(todo.id)}
+          onClick={() => handleDeleteClick(props.todo.id)}
           disabled={loading}
         >
           <img src={deleteIcon} alt="delete-picture"></img>
@@ -102,13 +118,15 @@ export default function ToDoListContent({ todo, refresh }) {
     </>
   );
 
-  let saveCancelTemplate = (
+  const saveCancelTemplate = (
     <>
       <div className="checkbox-input">
         <input
           type="checkbox"
-          checked={todo.isDone}
-          onChange={() => handleChangeCheckbox(todo.id, todo.isDone)}
+          checked={props.todo.isDone}
+          onChange={() =>
+            handleChangeCheckbox(props.todo.id, props.todo.isDone)
+          }
         ></input>
         <input
           type="text"
@@ -118,7 +136,10 @@ export default function ToDoListContent({ todo, refresh }) {
         ></input>
       </div>
       <div className="buttons-div">
-        <button className="edit-button" onClick={() => handeSaveClick(todo.id)}>
+        <button
+          className="edit-button"
+          onClick={() => handeSaveClick(props.todo.id)}
+        >
           <p className="changed-button">Save</p>
         </button>
         <button
@@ -142,6 +163,13 @@ export default function ToDoListContent({ todo, refresh }) {
           <p className="error-p">Количество символов минимум 2 максимум 64</p>
         </div>
       )}
+      {error && (
+        <div className="error-container">
+          <p className="error-p">{error}</p>
+        </div>
+      )}
     </>
   );
-}
+};
+
+export default ToDoListContent;

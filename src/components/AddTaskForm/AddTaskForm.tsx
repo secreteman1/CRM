@@ -1,19 +1,21 @@
 import "./AddTaskForm.scss";
 import { useState } from "react";
 import { postToDoTask } from "../../api/todo.js";
-import maxMinValidationValues from "../../maxMinValidationValues.jsx";
+import maxMinValidationValues from "../../maxMinValidationValues.js";
 
-export default function AddTaskForm({ refresh }) {
+const AddTaskForm: React.FC<{ refresh: () => void }> = (props) => {
   const [value, setValue] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  function handleInputChange(event) {
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
   }
 
-  const handleAddButtonClick = async () => {
+  const handleAddButtonClick = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     if (maxMinValidationValues(value, 2, 64)) {
       setIsValid(false);
@@ -23,13 +25,17 @@ export default function AddTaskForm({ refresh }) {
     setError(null);
     setIsValid(true);
     try {
-      const data = await postToDoTask(value);
+      await postToDoTask(value);
     } catch (error) {
-      setError(error.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
       setValue("");
-      await refresh();
+      await props.refresh();
     }
   };
 
@@ -50,6 +56,9 @@ export default function AddTaskForm({ refresh }) {
       {!isValid && (
         <p className="error-p">Количество символов минимум 2 максимум 64</p>
       )}
+      {error && <p className="error-p">{error}</p>}
     </>
   );
-}
+};
+
+export default AddTaskForm;
