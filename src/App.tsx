@@ -38,7 +38,11 @@ function App() {
 
   useEffect(() => {
     fetchTodos();
-  });
+  }, [category]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
 
   return (
     <div>
