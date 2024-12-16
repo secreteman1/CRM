@@ -1,16 +1,14 @@
+import axios from "axios";
+
 export async function putToDoTaskValue(value: number, inputValue: string) {
   try {
-    const response = await fetch(
+    const response = await axios.put(
       `https://easydev.club/api/v1//todos/${value}`,
       {
-        method: "PUT",
-        body: JSON.stringify({ title: inputValue }),
+        title: inputValue,
       }
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
+    return response.data;
   } catch (error) {
     console.error("Ошибка при отправке запроса:", error);
   }
@@ -18,17 +16,12 @@ export async function putToDoTaskValue(value: number, inputValue: string) {
 
 export async function putToDoTaskStatus(value: number, newStatus: boolean) {
   try {
-    const response = await fetch(
+    const response = await axios.put(
       `https://easydev.club/api/v1//todos/${value}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ isDone: newStatus }),
-      }
+      { isDone: newStatus }
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
+
+    return response.data;
   } catch (error) {
     console.error("Ошибка при отправке запроса:", error);
   }
@@ -36,15 +29,11 @@ export async function putToDoTaskStatus(value: number, newStatus: boolean) {
 
 export async function postToDoTask(value: string) {
   try {
-    const response = await fetch("https://easydev.club/api/v1/todos", {
-      method: "POST",
-      body: JSON.stringify({ title: value, isDone: false }),
+    const response = await axios.post("https://easydev.club/api/v1/todos", {
+      title: value,
+      isDone: false,
     });
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error("Ошибка при отправке запроса:", error);
   }
@@ -52,14 +41,10 @@ export async function postToDoTask(value: string) {
 
 export async function getToDoList(category: string) {
   try {
-    const response = await fetch(
-      `https://easydev.club/api/v1/todos?filter=${category}`,
-      { method: "GET" }
+    const response = await axios.get(
+      `https://easydev.club/api/v1/todos?filter=${category}`
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error("Ошибка при отправке запроса:", error);
   }
@@ -67,16 +52,10 @@ export async function getToDoList(category: string) {
 
 export async function deleteToDoTask(value: number) {
   try {
-    const response = await fetch(
-      `https://easydev.club/api/v1//todos/${value}`,
-      {
-        method: "DELETE",
-      }
+    const response = await axios.delete(
+      `https://easydev.club/api/v1//todos/${value}`
     );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error("Ошибка при отправке запроса:", error);
   }

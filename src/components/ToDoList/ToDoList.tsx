@@ -1,5 +1,6 @@
-import "./ToDoList.scss";
 import ToDoListContent from "../ToDoListContent/ToDoListContent.tsx";
+import "./ToDoList.scss";
+import { List } from "antd";
 
 export type Todo = {
   created: Date;
@@ -10,15 +11,26 @@ export type Todo = {
 
 const ToDoList: React.FC<{ todos: Todo[]; refresh: () => void }> = (props) => {
   return (
-    <div>
-      <ul className="no-padding">
-        {props.todos.map((todoItem) => (
-          <li className="styled-li" key={todoItem.id}>
-            <ToDoListContent todo={todoItem} refresh={props.refresh} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <List
+        size="large"
+        itemLayout="horizontal"
+        dataSource={props.todos}
+        renderItem={(todoItem) => (
+          <List.Item
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div className="styled-li">
+              <ToDoListContent todo={todoItem} refresh={props.refresh} />
+            </div>
+          </List.Item>
+        )}
+      />
+    </>
   );
 };
 

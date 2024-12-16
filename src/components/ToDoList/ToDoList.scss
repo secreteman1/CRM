@@ -1,19 +1,20 @@
 @use "../../_colors.scss";
 
 .styled-li {
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  background-color: #ffffff;
-  margin-top: 10px;
-  height: auto;
   display: flex;
-  align-items: center;
   flex-direction: column;
   align-items: center;
 }
 
+.error-p {
+  display: block;
+  margin-top: 10px;
+  color: red;
+  font-size: 12px;
+}
+
 .content-wrapper {
+  gap: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,50 +22,14 @@
   height: 50px;
 }
 
-.buttons-div {
-  margin-right: 10px;
-}
-.checkbox-input {
-  display: flex;
-  align-items: center;
-}
-.edit-button {
-  margin-left: 10px;
-  border-radius: 6px;
-  width: 35px;
-  border: transparent;
-  height: 30px;
-  background-color: colors.$primary-color;
-}
-.delete-button {
-  margin-left: 10px;
-  border-radius: 6px;
-  width: 35px;
-  border: transparent;
-  height: 30px;
-  background-color: colors.$secondary-color;
-}
 .done-p {
   color: colors.$tertiary-color;
   text-decoration: line-through;
+  width: 265px;
+  overflow: hidden;
 }
-.changed-button {
-  margin: 0px;
-  font-size: 10px;
-  color: white;
-}
-.no-padding {
-  padding: 0;
-}
-.chanching-input {
-  width: auto;
-}
-.error-p {
-  display: block;
-  margin-top: 10px;
-  color: red;
-  font-size: 12px;
-}
-.error-container {
-  margin-top: 10px;
+
+.not-done-p {
+  width: 265px;
+  overflow: hidden;
 }

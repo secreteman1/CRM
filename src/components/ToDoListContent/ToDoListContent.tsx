@@ -1,26 +1,28 @@
 import { useState } from "react";
-import editIcon from "../../assets/edit.png";
-import deleteIcon from "../../assets/delete.png";
-import maxMinValidationValues from "../../maxMinValidationValues.ts";
 import {
   putToDoTaskValue,
   putToDoTaskStatus,
   deleteToDoTask,
 } from "../../api/todo.js";
 import { Todo } from "../ToDoList/ToDoList.tsx";
+import { Button, Checkbox, Input, Form } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  SaveOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
 const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
   props
 ) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState("");
   const [isEditingNow, setEditingNow] = useState(false);
-  const [isValid, setIsValid] = useState(true);
+  const [form] = Form.useForm();
 
   const handleDeleteClick = async (value: number) => {
     setLoading(true);
-    setIsValid(true);
     try {
       await deleteToDoTask(value);
     } catch (error) {
@@ -37,7 +39,6 @@ const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
 
   const handleCancelClick = async () => {
     setEditingNow(false);
-    setIsValid(true);
   };
 
   const handleChangeCheckbox = async (
@@ -56,28 +57,23 @@ const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
       }
     } finally {
       setLoading(false);
+      setEditingNow(false);
       await props.refresh();
     }
   };
 
-  function handleInputValueChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setInputValue(event.target.value);
-  }
-
   const handeEditClick = async () => {
-    setInputValue(props.todo.title);
+    form.setFieldsValue({ editInput: props.todo.title });
     setEditingNow(true);
   };
 
   const handeSaveClick = async (value: number) => {
-    if (maxMinValidationValues(inputValue, 2, 64)) {
-      setIsValid(false);
-      return;
-    }
-    setLoading(true);
-    setIsValid(true);
     try {
-      await putToDoTaskValue(value, inputValue);
+      const values = await form.validateFields();
+      setLoading(true);
+      await putToDoTaskValue(value, values.editInput);
+      form.resetFields();
+      await props.refresh();
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -87,82 +83,85 @@ const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
     } finally {
       setLoading(false);
       setEditingNow(false);
-      await props.refresh();
     }
   };
 
   const editDeleteTemplate = (
-    <>
-      <div className="checkbox-input">
-        <input
-          type="checkbox"
-          checked={props.todo.isDone}
-          onChange={() =>
-            handleChangeCheckbox(props.todo.id, props.todo.isDone)
-          }
-        ></input>
-        <p className={props.todo.isDone ? "done-p" : ""}>{props.todo.title}</p>
-      </div>
-      <div className="buttons-div">
-        <button className="edit-button" onClick={() => handeEditClick()}>
-          <img src={editIcon} alt="edit-picture"></img>
-        </button>
-        <button
-          className="delete-button"
-          onClick={() => handleDeleteClick(props.todo.id)}
-          disabled={loading}
-        >
-          <img src={deleteIcon} alt="delete-picture"></img>
-        </button>
-      </div>
-    </>
+    <div className="content-wrapper">
+      <Checkbox
+        checked={props.todo.isDone}
+        onChange={() => handleChangeCheckbox(props.todo.id, props.todo.isDone)}
+      ></Checkbox>
+      <p className={props.todo.isDone ? "done-p" : "not-done-p "}>
+        {props.todo.title}
+      </p>
+      <Button
+        onClick={() => handeEditClick()}
+        variant="solid"
+        color="primary"
+        size="large"
+      >
+        <EditOutlined />
+      </Button>
+      <Button
+        onClick={() => handleDeleteClick(props.todo.id)}
+        disabled={loading}
+        variant="solid"
+        color="danger"
+        size="large"
+      >
+        <DeleteOutlined />
+      </Button>
+    </div>
   );
 
   const saveCancelTemplate = (
-    <>
-      <div className="checkbox-input">
-        <input
-          type="checkbox"
+    <div className="content-wrapper">
+      <Form
+        form={form}
+        layout="inline"
+        style={{
+          gap: "10px",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        onFinish={() => handeSaveClick(props.todo.id)}
+      >
+        <Checkbox
           checked={props.todo.isDone}
           onChange={() =>
             handleChangeCheckbox(props.todo.id, props.todo.isDone)
           }
-        ></input>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputValueChange}
-          className="chanching-input"
-        ></input>
-      </div>
-      <div className="buttons-div">
-        <button
-          className="edit-button"
-          onClick={() => handeSaveClick(props.todo.id)}
+        ></Checkbox>
+        <Form.Item
+          name="editInput"
+          rules={[
+            { min: 2, message: "Минимальное количество символов — 2" },
+            { max: 64, message: "Максимальное количество символов — 64" },
+          ]}
+          initialValue={props.todo.title}
         >
-          <p className="changed-button">Save</p>
-        </button>
-        <button
-          className="delete-button"
+          <Input style={{ width: "265px" }} type="text"></Input>
+        </Form.Item>
+        <Button size="large" variant="solid" color="primary" htmlType="submit">
+          <SaveOutlined />
+        </Button>
+        <Button
+          size="large"
+          variant="solid"
+          color="danger"
           onClick={() => handleCancelClick()}
           disabled={loading}
         >
-          <p className="changed-button">Cancel</p>
-        </button>
-      </div>
-    </>
+          <CloseOutlined />
+        </Button>
+      </Form>
+    </div>
   );
 
   return (
     <>
-      <div className="content-wrapper">
-        {isEditingNow ? saveCancelTemplate : editDeleteTemplate}
-      </div>
-      {!isValid && (
-        <div className="error-container">
-          <p className="error-p">Количество символов минимум 2 максимум 64</p>
-        </div>
-      )}
+      {isEditingNow ? saveCancelTemplate : editDeleteTemplate}
       {error && (
         <div className="error-container">
           <p className="error-p">{error}</p>
