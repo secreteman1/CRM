@@ -12,6 +12,7 @@ import {
   SaveOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
+import { MIN_TITLE_LENGTH, MAX_TITLE_LENGTH } from "../../MainPage";
 
 const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
   props
@@ -136,8 +137,18 @@ const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
         <Form.Item
           name="editInput"
           rules={[
-            { min: 2, message: "Минимальное количество символов — 2" },
-            { max: 64, message: "Максимальное количество символов — 64" },
+            {
+              required: true,
+              message: "Неообходимо заполнить данное поле",
+            },
+            {
+              min: MIN_TITLE_LENGTH,
+              message: `Минимальное количество символов — ${MIN_TITLE_LENGTH}`,
+            },
+            {
+              max: MAX_TITLE_LENGTH,
+              message: `Максимальное количество символов — ${MAX_TITLE_LENGTH}`,
+            },
           ]}
           initialValue={props.todo.title}
         >

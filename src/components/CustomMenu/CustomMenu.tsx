@@ -8,7 +8,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 const items: MenuItem[] = [
   {
     key: "sub1",
-    label: <Link to="/">Список задач</Link>,
+    label: <Link to="/todos">Список задач</Link>,
     icon: <SolutionOutlined />,
   },
   {

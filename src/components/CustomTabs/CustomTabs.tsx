@@ -6,31 +6,30 @@ type QuantityInformation = {
   inWork: number;
 };
 
+type Category = "all" | "inWork" | "done";
+
 const CustomTabs: React.FC<{
   category: string;
   quantityInformation: QuantityInformation;
-  handleCategoryButtonClick: (text: string) => void;
+  handleCategoryButtonClick: (text: Category) => void;
 }> = (props) => {
   const data = [
     {
       id: "all",
       label: `Все (${props.quantityInformation.all})`,
-      content: null,
     },
     {
       id: "inWork",
       label: `В работе (${props.quantityInformation.inWork})`,
-      content: null,
     },
     {
       id: "completed",
       label: `Сделано (${props.quantityInformation.completed})`,
-      content: null,
     },
   ];
 
   const handleTabChange = (key: string) => {
-    props.handleCategoryButtonClick(key);
+    props.handleCategoryButtonClick(key as Category);
   };
 
   return (
@@ -42,7 +41,6 @@ const CustomTabs: React.FC<{
       items={data.map((tab) => ({
         label: tab.label,
         key: tab.id,
-        children: tab.content,
       }))}
     ></Tabs>
   );

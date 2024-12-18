@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { postToDoTask } from "../../api/todo.js";
 import { Button, Form, Input } from "antd";
-
+import { MIN_TITLE_LENGTH, MAX_TITLE_LENGTH } from "../../MainPage";
 const AddTaskForm: React.FC<{ refresh: () => void }> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,15 +31,24 @@ const AddTaskForm: React.FC<{ refresh: () => void }> = (props) => {
         <Form.Item
           name="addInput"
           rules={[
-            { min: 2, message: "Минимальное количество символов — 2" },
-            { max: 64, message: "Максимальное количество символов — 64" },
+            {
+              required: true,
+              message: "Неообходимо заполнить данное поле",
+            },
+            {
+              min: MIN_TITLE_LENGTH,
+              message: `Минимальное количество символов — ${MIN_TITLE_LENGTH}`,
+            },
+            {
+              max: MAX_TITLE_LENGTH,
+              message: `Максимальное количество символов — ${MAX_TITLE_LENGTH}`,
+            },
           ]}
         >
           <Input
             style={{ width: "265px" }}
             size="large"
             placeholder="Task To Be Done..."
-            required
           ></Input>
         </Form.Item>
         <Form.Item>

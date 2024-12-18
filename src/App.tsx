@@ -10,7 +10,7 @@ function App() {
         <CustomMenu />
       </div>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/todos" element={<MainPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>

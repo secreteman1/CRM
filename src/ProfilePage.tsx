@@ -1,12 +1,20 @@
-import { Typography } from "antd";
+import { Typography, Layout } from "antd";
 
 const { Title } = Typography;
 
 function ProfilePage() {
   return (
-    <div className="main-content">
+    <Layout
+      style={{
+        flex: "1",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "20px",
+      }}
+    >
       <Title>Привет</Title>
-    </div>
+    </Layout>
   );
 }
 export default ProfilePage;
