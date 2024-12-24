@@ -1,0 +1,86 @@
+.main-login-image {
+  width: 1109px;
+  height: 1080px;
+  border-radius: 50px 0px 0px 50px;
+}
+
+.div-main-login-image {
+  width: 1109px;
+  height: 1080px;
+}
+
+.secondary-login-image {
+  width: 72px;
+  height: 72px;
+  margin-left: 136px;
+  margin-top: 179px;
+}
+
+.div-login-form {
+  width: 420px;
+  height: 376px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 136px;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.div-login-section {
+  width: 746px;
+  height: 1080px;
+}
+
+.div-login-form-upper-text {
+  height: 74px;
+  width: 387px;
+}
+
+.main-login {
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  background-color: #ffff;
+  border-radius: 50px 50px 50px 50px;
+  padding: 10px;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: rgba(127, 38, 91, 1);
+  border-color: rgba(127, 38, 91, 1);
+}
+
+.ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox-checked:not(.ant-checkbox-disabled)
+  .ant-checkbox-inner {
+  background-color: rgba(127, 38, 91, 1);
+  border-color: rgba(127, 38, 91, 1);
+}
+
+.ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+  .ant-checkbox-inner,
+.ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+  border-color: rgba(127, 38, 91, 1);
+}
+
+.ant-input::placeholder {
+  color: rgba(224, 224, 224, 1);
+}
+
+.div-login-form-lower-text {
+  margin-top: 1040px;
+  width: 330px;
+  height: 25px;
+  display: flex;
+  position: absolute;
+}
+
+.ant-typography a {
+  color: #7f265b;
+}
+
+.ant-typography a:focus,
+.ant-typography a:hover {
+  color: #7f265b;
+}

@@ -69,6 +69,13 @@ function MainPage() {
     }, 5000);
 
     return () => clearInterval(interval);
+  }, [category]);
+
+  useEffect(() => {
+    const fetchData = async function () {
+      await fetchTodos();
+    };
+    fetchData();
   }, []);
 
   return (
