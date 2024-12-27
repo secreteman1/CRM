@@ -2,7 +2,7 @@ import { Layout, Form, Button, Input, Typography, Modal, Spin } from "antd";
 import { Link } from "react-router-dom";
 import "./RegisterPage.scss";
 import { useState } from "react";
-import { postRegisterProfile } from "./api/todo.js";
+import { postRegisterProfile } from "../../api/todo.js";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -61,7 +61,7 @@ function RegisterPage() {
 
   return (
     <>
-      <Layout>
+      <Layout style={{ marginTop: "45px" }}>
         <main className="main-register">
           <Form
             form={form}

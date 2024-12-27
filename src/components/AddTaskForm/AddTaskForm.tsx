@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { postToDoTask } from "../../api/todo.js";
 import { Button, Form, Input } from "antd";
-import { MIN_TITLE_LENGTH, MAX_TITLE_LENGTH } from "../../MainPage";
+import {
+  MIN_TITLE_LENGTH,
+  MAX_TITLE_LENGTH,
+} from "../../pages/MainPage/MainPage.tsx";
 const AddTaskForm: React.FC<{ refresh: () => void }> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

@@ -1,14 +1,14 @@
-import loginMainImage from "./assets/loginMainImage.png";
-import loginSecondaryImage from "./assets/loginSecondaryImage.png";
+import loginMainImage from "../../assets/loginMainImage.png";
+import loginSecondaryImage from "../../assets/loginSecondaryImage.png";
 import "./LoginPage.scss";
 import { Button, Form, Input, Typography, Checkbox, Modal, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
-import { postLoginProfile } from "./api/todo.js";
+import { postLoginProfile } from "../../api/todo";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "./authAction.js";
+import { saveTokens } from "../../store/authSlice";
 
 function LoginPage() {
   const [form] = Form.useForm();
@@ -50,9 +50,15 @@ function LoginPage() {
         setError(data);
         return;
       }
-      console.log(data);
-      const { accessToken, refreshToken } = data;
-      dispatch(loginSuccess(accessToken, refreshToken));
+      dispatch(
+        saveTokens({
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        })
+      );
+
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("isAuthorised", "true");
       form.resetFields();
     } catch (error) {
       if (error instanceof Error) {
@@ -139,6 +145,7 @@ function LoginPage() {
             <Form.Item
               name="password"
               label="Password"
+              style={{ marginBottom: "0" }}
               rules={[
                 {
                   required: true,
@@ -242,8 +249,8 @@ function LoginPage() {
                 <p>{error}</p>
               ) : (
                 <p>
-                  Вы успешно зарегестрировались. После нажажатия на кнопку OK вы
-                  перейдете на страницу авторизации для входа в систему.
+                  Вы успешно вошли. После нажажатия на кнопку OK вы перейдете на
+                  главную страницу.
                 </p>
               )}
             </Spin>

@@ -12,7 +12,10 @@ import {
   SaveOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import { MIN_TITLE_LENGTH, MAX_TITLE_LENGTH } from "../../MainPage";
+import {
+  MIN_TITLE_LENGTH,
+  MAX_TITLE_LENGTH,
+} from "../../pages/MainPage/MainPage.tsx";
 
 const ToDoListContent: React.FC<{ todo: Todo; refresh: () => void }> = (
   props

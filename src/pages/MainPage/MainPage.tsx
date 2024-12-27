@@ -1,9 +1,9 @@
-import AddTaskForm from "./components/AddTaskForm/AddTaskForm.tsx";
-import CustomTabs from "./components/CustomTabs/CustomTabs.tsx";
-import ToDoList from "./components/ToDoList/ToDoList.tsx";
+import AddTaskForm from "../../components/AddTaskForm/AddTaskForm.tsx";
+import CustomTabs from "../../components/CustomTabs/CustomTabs.tsx";
+import ToDoList from "../../components/ToDoList/ToDoList.tsx";
 import { useState, useEffect } from "react";
-import { getToDoList } from "./api/todo.ts";
-import "./App.css";
+import { getToDoList } from "../../api/todo.ts";
+import "../../App.css";
 import { Layout } from "antd";
 
 type Category = "all" | "inWork" | "done";
@@ -57,10 +57,9 @@ function MainPage() {
   };
 
   useEffect(() => {
-    const fetchData = async function () {
+    (async () => {
       await fetchTodos();
-    };
-    fetchData();
+    })();
   }, [category]);
 
   useEffect(() => {
@@ -72,10 +71,9 @@ function MainPage() {
   }, [category]);
 
   useEffect(() => {
-    const fetchData = async function () {
+    (async () => {
       await fetchTodos();
-    };
-    fetchData();
+    })();
   }, []);
 
   return (

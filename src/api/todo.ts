@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "../store.ts";
+
 const instance = axios.create({
   baseURL: "https://easydev.club/api/v1",
 });
@@ -126,16 +126,27 @@ export async function postLoginProfile(value: UserLogin) {
   }
 }
 
-export async function getUserProfile() {
-  const state = store.getState();
-  const accessToken = state.auth.accessToken;
-
+export async function getUserProfile(accessToken: string) {
   try {
     const response = await instance.get("/user/profile", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
       },
+    });
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message;
+    } else {
+      return "An unknown error occurred";
+    }
+  }
+}
+
+export async function postRefreshToken(refreshToken: string | null) {
+  try {
+    const response = await instance.post("/auth/refresh", {
+      refreshToken: refreshToken,
     });
     return response.data;
   } catch (error) {
