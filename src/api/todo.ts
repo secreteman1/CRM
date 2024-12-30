@@ -1,25 +1,12 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://easydev.club/api/v1",
+  baseURL: "https://easydev.club/api/v1/todos",
 });
-
-type UserRegistration = {
-  login: string;
-  username: string;
-  password: string;
-  email: string;
-  phoneNumber: string;
-};
-
-type UserLogin = {
-  login: string;
-  password: string;
-};
 
 export async function putToDoTaskValue(value: number, inputValue: string) {
   try {
-    const response = await instance.put(`/todos/${value}`, {
+    const response = await instance.put(`/${value}`, {
       title: inputValue,
     });
     return response.data;
@@ -34,7 +21,7 @@ export async function putToDoTaskValue(value: number, inputValue: string) {
 
 export async function putToDoTaskStatus(value: number, newStatus: boolean) {
   try {
-    const response = await instance.put(`/todos/${value}`, {
+    const response = await instance.put(`/${value}`, {
       isDone: newStatus,
     });
     return response.data;
@@ -49,7 +36,7 @@ export async function putToDoTaskStatus(value: number, newStatus: boolean) {
 
 export async function postToDoTask(value: string) {
   try {
-    const response = await instance.post("/todos", {
+    const response = await instance.post("", {
       title: value,
       isDone: false,
     });
@@ -65,7 +52,7 @@ export async function postToDoTask(value: string) {
 
 export async function getToDoList(category: string) {
   try {
-    const response = await instance.get(`/todos`, {
+    const response = await instance.get(``, {
       params: { filter: category },
     });
     return response.data;
@@ -80,80 +67,13 @@ export async function getToDoList(category: string) {
 
 export async function deleteToDoTask(value: number) {
   try {
-    const response = await instance.delete(`/todos/${value}`);
+    const response = await instance.delete(`/${value}`);
     return response.data;
   } catch (error) {
     if (error instanceof Error) {
       throw error.message;
     } else {
       throw "An unknown error occurred";
-    }
-  }
-}
-
-export async function postRegisterProfile(value: UserRegistration) {
-  try {
-    const response = await instance.post("/auth/signup", {
-      login: value.login,
-      username: value.username,
-      password: value.password,
-      email: value.email,
-      phoneNumber: value.phoneNumber,
-    });
-    return response.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      return error.message;
-    } else {
-      return "An unknown error occurred";
-    }
-  }
-}
-
-export async function postLoginProfile(value: UserLogin) {
-  try {
-    const response = await instance.post("/auth/signin", {
-      login: value.login,
-      password: value.password,
-    });
-    return response.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      return error.message;
-    } else {
-      return "An unknown error occurred";
-    }
-  }
-}
-
-export async function getUserProfile(accessToken: string) {
-  try {
-    const response = await instance.get("/user/profile", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      return error.message;
-    } else {
-      return "An unknown error occurred";
-    }
-  }
-}
-
-export async function postRefreshToken(refreshToken: string | null) {
-  try {
-    const response = await instance.post("/auth/refresh", {
-      refreshToken: refreshToken,
-    });
-    return response.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      return error.message;
-    } else {
-      return "An unknown error occurred";
     }
   }
 }

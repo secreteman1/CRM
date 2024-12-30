@@ -12,8 +12,8 @@
 .secondary-login-image {
   width: 72px;
   height: 72px;
-  margin-left: 136px;
-  margin-top: 179px;
+  margin-left: 8.5rem;
+  margin-top: 11.25rem;
 }
 
 .div-login-form {
@@ -21,8 +21,8 @@
   height: 376px;
   display: flex;
   flex-direction: column;
-  margin-left: 136px;
-  margin-top: 30px;
+  margin-left: 8.5rem;
+  margin-top: 2rem;
   justify-content: center;
   align-items: center;
 }
@@ -70,7 +70,7 @@
 }
 
 .div-login-form-lower-text {
-  margin-top: 1040px;
+  margin-top: 65rem;
   width: 330px;
   height: 25px;
   display: flex;
@@ -84,4 +84,11 @@
 .ant-typography a:focus,
 .ant-typography a:hover {
   color: #7f265b;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  flex-direction: row;
 }

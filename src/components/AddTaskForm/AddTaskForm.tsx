@@ -5,12 +5,13 @@ import {
   MIN_TITLE_LENGTH,
   MAX_TITLE_LENGTH,
 } from "../../pages/MainPage/MainPage.tsx";
+
 const AddTaskForm: React.FC<{ refresh: () => void }> = (props) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const handleAddButtonClick = async (values: { addInput: string }) => {
+  const handleSubmit = async (values: { addInput: string }) => {
     setLoading(true);
     setError(null);
     try {
@@ -30,7 +31,7 @@ const AddTaskForm: React.FC<{ refresh: () => void }> = (props) => {
 
   return (
     <>
-      <Form form={form} layout="inline" onFinish={handleAddButtonClick}>
+      <Form form={form} layout="inline" onFinish={handleSubmit}>
         <Form.Item
           name="addInput"
           rules={[

@@ -1,6 +1,6 @@
 import ToDoListContent from "../ToDoListContent/ToDoListContent.tsx";
 import "./ToDoList.scss";
-import { List } from "antd";
+import { Flex, List } from "antd";
 
 export type Todo = {
   created: Date;
@@ -17,16 +17,10 @@ const ToDoList: React.FC<{ todos: Todo[]; refresh: () => void }> = (props) => {
         itemLayout="horizontal"
         dataSource={props.todos}
         renderItem={(todoItem) => (
-          <List.Item
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <div className="styled-li">
+          <List.Item>
+            <Flex vertical align="center">
               <ToDoListContent todo={todoItem} refresh={props.refresh} />
-            </div>
+            </Flex>
           </List.Item>
         )}
       />

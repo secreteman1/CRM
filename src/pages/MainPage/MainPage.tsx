@@ -3,7 +3,6 @@ import CustomTabs from "../../components/CustomTabs/CustomTabs.tsx";
 import ToDoList from "../../components/ToDoList/ToDoList.tsx";
 import { useState, useEffect } from "react";
 import { getToDoList } from "../../api/todo.ts";
-import "../../App.css";
 import { Layout } from "antd";
 
 type Category = "all" | "inWork" | "done";
@@ -25,7 +24,7 @@ export const MIN_TITLE_LENGTH = 2;
 export const MAX_TITLE_LENGTH = 64;
 
 function MainPage() {
-  const [category, setCategory] = useState<Category>("all");
+  const [category, setFilter] = useState<Category>("all");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,9 +35,9 @@ function MainPage() {
       inWork: 0,
     });
 
-  function handleCategoryButtonClick(name: Category) {
-    setCategory(name);
-  }
+  const changeFilter = (filter: Category) => {
+    setFilter(filter);
+  };
 
   const fetchTodos = async () => {
     try {
@@ -83,7 +82,7 @@ function MainPage() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "20px",
+        marginTop: "1rem",
       }}
     >
       {loading && "Loading..."}
@@ -96,7 +95,7 @@ function MainPage() {
       <CustomTabs
         category={category}
         quantityInformation={quantityInformation}
-        handleCategoryButtonClick={handleCategoryButtonClick}
+        handleCategoryButtonClick={changeFilter}
       />
       <ToDoList todos={todos} refresh={fetchTodos}></ToDoList>
     </Layout>

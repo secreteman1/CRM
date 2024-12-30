@@ -1,8 +1,17 @@
-import { Layout, Form, Button, Input, Typography, Modal, Spin } from "antd";
+import {
+  Layout,
+  Form,
+  Button,
+  Input,
+  Typography,
+  Modal,
+  Spin,
+  Flex,
+} from "antd";
 import { Link } from "react-router-dom";
 import "./RegisterPage.scss";
 import { useState } from "react";
-import { postRegisterProfile } from "../../api/todo.js";
+import { postRegisterProfile } from "../../api/auth";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -61,7 +70,7 @@ function RegisterPage() {
 
   return (
     <>
-      <Layout style={{ marginTop: "45px" }}>
+      <Layout style={{ marginTop: "3rem" }}>
         <main className="main-register">
           <Form
             form={form}
@@ -255,14 +264,8 @@ function RegisterPage() {
                 Зарегистрироваться
               </Button>
             </Form.Item>
-            <Form.Item
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div className="div-register-form-lower-text">
+            <Form.Item>
+              <Flex justify="center">
                 <Typography
                   style={{
                     color: "#828282",
@@ -286,21 +289,21 @@ function RegisterPage() {
                 >
                   <Link to="/login">Login to your account</Link>
                 </Typography>
-              </div>
+              </Flex>
             </Form.Item>
           </Form>
           <Modal
             title={
               error ? (
-                <div className="modal-title-text">
+                <Flex gap="small">
                   <CloseCircleTwoTone twoToneColor="#eb2f96" />
                   Ошибка
-                </div>
+                </Flex>
               ) : (
-                <div className="modal-title-text">
+                <Flex gap="small">
                   <CheckCircleTwoTone twoToneColor="#52c41a" />
                   Успех
-                </div>
+                </Flex>
               )
             }
             open={isModalOpen}

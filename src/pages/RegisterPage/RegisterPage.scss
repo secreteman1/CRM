@@ -1,5 +1,4 @@
 .main-register {
-  margin-top: 0px;
   display: flex;
   flex-direction: row;
   background-color: #ffff;
@@ -7,21 +6,17 @@
   padding: 10px;
   width: 675px;
   height: 800px;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #f2f2fa;
 }
 
 .ant-layout {
   background: #f2f2fa;
-}
-
-.ant-layout {
   flex: none;
-}
-
-.div-register-form-lower-text {
-  width: 420px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
 }
 
 .ant-form-item .ant-form-item-label > label {
@@ -41,9 +36,4 @@
   padding-top: 0px;
   padding-bottom: 5px;
   align-items: center;
-}
-
-.modal-title-text {
-  gap: 5px;
-  display: flex;
 }

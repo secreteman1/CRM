@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
-import { postLoginProfile } from "../../api/todo";
+import { postLoginProfile } from "../../api/auth";
 import { useDispatch } from "react-redux";
 import { saveTokens } from "../../store/authSlice";
 
@@ -106,7 +106,7 @@ function LoginPage() {
             form={form}
             layout="vertical"
             onFinish={handleLoginButtonClick}
-            style={{ height: "266px", marginTop: "36px" }}
+            style={{ height: "266px", marginTop: "2rem" }}
           >
             <Form.Item
               name="login"
@@ -170,14 +170,7 @@ function LoginPage() {
                 placeholder="****************"
               ></Input.Password>
             </Form.Item>
-            <Form.Item
-              style={{
-                height: "16px",
-                width: "420px",
-                gap: "10px",
-                display: "flex",
-              }}
-            >
+            <Form.Item>
               <Typography
                 style={{
                   color: "#A1A1A1",
@@ -197,7 +190,7 @@ function LoginPage() {
                     fontWeight: "500",
                     fontSize: "12px",
                     font: "Nunito Sans",
-                    marginLeft: "200px",
+                    marginLeft: "12.5rem",
                     paddingRight: "5px",
                     height: "16px",
                   }}

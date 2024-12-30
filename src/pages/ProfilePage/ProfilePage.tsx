@@ -1,10 +1,11 @@
-import { Typography, Layout, Spin, Alert, Button } from "antd";
-import { getUserProfile, postRefreshToken } from "../../api/todo";
+import { Typography, Layout, Spin, Alert, Button, Flex } from "antd";
+import { postRefreshToken } from "../../api/auth";
+import { getUserProfile, setAccessToken } from "../../api/user";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { deleteTokens, saveTokens } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { RootStore } from "../../store/store";
 
 type ProfileData = {
@@ -27,11 +28,13 @@ function ProfilePage() {
     phoneNumber: "Телефон не указан",
     username: "Имя пользователя не указано",
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const refreshToken = localStorage.getItem("refreshToken");
+
   const accessToken = useSelector(
     (state: RootStore) => state.autorisationTokens.accessToken
   );
@@ -45,7 +48,9 @@ function ProfilePage() {
   const fetchProfileInfo = async () => {
     setLoading(true);
     try {
-      let data = await getUserProfile(accessToken);
+      setAccessToken(accessToken);
+
+      let data = await getUserProfile();
       if (typeof data === "string") {
         setError(data);
         try {
@@ -66,7 +71,7 @@ function ProfilePage() {
           );
           localStorage.setItem("refreshToken", tokensFromRefresh.refreshToken);
           setError(null);
-          data = await getUserProfile(tokensFromRefresh.accessToken);
+          data = await getUserProfile();
         } catch (error) {
           if (error instanceof Error) {
             setError(error.message);
@@ -103,7 +108,7 @@ function ProfilePage() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "20px",
+        marginTop: "1rem",
       }}
     >
       <Spin spinning={loading}>
@@ -114,15 +119,14 @@ function ProfilePage() {
             <Typography> Имя пользователя: {profile.username}</Typography>
             <Typography>Почтовый адрес: {profile.email}</Typography>
             <Typography>Телефон: {profile.phoneNumber}</Typography>
-            <div
+            <Flex
+              justify="center"
               style={{
-                marginTop: "20px",
-                display: "flex",
-                justifyContent: "center",
+                marginTop: "0.5rem",
               }}
             >
               <Button onClick={handleLogOut}>Log out</Button>
-            </div>
+            </Flex>
           </>
         )}
       </Spin>
