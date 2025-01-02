@@ -4,7 +4,7 @@ import authReducer from "./authSlice";
 
 export const store = configureStore({
   reducer: {
-    autorisationTokens: authReducer,
+    Authorized: authReducer,
   },
 });
 

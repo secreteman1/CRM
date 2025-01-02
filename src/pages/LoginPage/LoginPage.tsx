@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
-import { postLoginProfile } from "../../api/auth";
+import { loginProfile } from "../../api/auth";
 import { useDispatch } from "react-redux";
-import { saveTokens } from "../../store/authSlice";
+import { setIsAuthorized } from "../../store/authSlice";
+import { setAccessToken } from "../../api/user";
 
 function LoginPage() {
   const [form] = Form.useForm();
@@ -45,20 +46,14 @@ function LoginPage() {
     setLoading(true);
     setError(null);
     try {
-      const data = await postLoginProfile(values);
+      const data = await loginProfile(values);
       if (typeof data === "string") {
         setError(data);
         return;
       }
-      dispatch(
-        saveTokens({
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-        })
-      );
-
+      dispatch(setIsAuthorized(true));
+      setAccessToken(data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("isAuthorised", "true");
       form.resetFields();
     } catch (error) {
       if (error instanceof Error) {

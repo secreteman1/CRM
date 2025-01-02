@@ -95,7 +95,7 @@ function MainPage() {
       <CustomTabs
         category={category}
         quantityInformation={quantityInformation}
-        handleCategoryButtonClick={changeFilter}
+        changeFilter={changeFilter}
       />
       <ToDoList todos={todos} refresh={fetchTodos}></ToDoList>
     </Layout>

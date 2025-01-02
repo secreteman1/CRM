@@ -11,7 +11,7 @@ type Category = "all" | "inWork" | "done";
 const CustomTabs: React.FC<{
   category: string;
   quantityInformation: QuantityInformation;
-  handleCategoryButtonClick: (text: Category) => void;
+  changeFilter: (text: Category) => void;
 }> = (props) => {
   const data = [
     {
@@ -29,7 +29,7 @@ const CustomTabs: React.FC<{
   ];
 
   const handleTabChange = (key: string) => {
-    props.handleCategoryButtonClick(key as Category);
+    props.changeFilter(key as Category);
   };
 
   return (

@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import { instance } from "./todo";
 let accessToken: string | null = null;
 
 export function setAccessToken(token: string) {
@@ -10,10 +9,6 @@ export function getAccessToken(): string | null {
   return accessToken;
 }
 
-const instance = axios.create({
-  baseURL: "https://easydev.club/api/v1/user",
-});
-
 instance.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -23,7 +18,7 @@ instance.interceptors.request.use((config) => {
 
 export async function getUserProfile() {
   try {
-    const response = await instance.get("/profile");
+    const response = await instance.get("/user/profile");
     return response.data;
   } catch (error) {
     if (error instanceof Error) {

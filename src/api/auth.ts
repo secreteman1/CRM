@@ -1,14 +1,10 @@
-import axios from "axios";
+import { instance } from "./todo";
 import { UserRegistration } from "./model";
 import { UserLogin } from "./model";
 
-const instance = axios.create({
-  baseURL: "https://easydev.club/api/v1/auth",
-});
-
-export async function postRegisterProfile(value: UserRegistration) {
+export async function registerProfile(value: UserRegistration) {
   try {
-    const response = await instance.post("/signup", value);
+    const response = await instance.post("/auth/signup", value);
     return response.data;
   } catch (error) {
     if (error instanceof Error) {
@@ -19,9 +15,9 @@ export async function postRegisterProfile(value: UserRegistration) {
   }
 }
 
-export async function postLoginProfile(value: UserLogin) {
+export async function loginProfile(value: UserLogin) {
   try {
-    const response = await instance.post("/signin", {
+    const response = await instance.post("/auth/signin", {
       login: value.login,
       password: value.password,
     });
@@ -35,9 +31,9 @@ export async function postLoginProfile(value: UserLogin) {
   }
 }
 
-export async function postRefreshToken(refreshToken: string | null) {
+export async function refreshAccessToken(refreshToken: string | null) {
   try {
-    const response = await instance.post("/refresh", {
+    const response = await instance.post("/auth/refresh", {
       refreshToken: refreshToken,
     });
     return response.data;

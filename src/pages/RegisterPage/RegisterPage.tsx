@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import "./RegisterPage.scss";
 import { useState } from "react";
-import { postRegisterProfile } from "../../api/auth";
+import { registerProfile } from "../../api/auth";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +51,7 @@ function RegisterPage() {
     setLoading(true);
     setError(null);
     try {
-      const data = await postRegisterProfile(values);
+      const data = await registerProfile(values);
       if (typeof data === "string") {
         setError(data);
         return;

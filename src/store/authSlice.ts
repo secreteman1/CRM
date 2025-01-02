@@ -1,25 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = { accessToken: "", refreshToken: "" };
+const initialState = { isAuthorized: false };
 
 const authSlice = createSlice({
-  name: "autorisationTokens",
+  name: "Authorized",
   initialState,
   reducers: {
-    saveTokens(
-      state,
-      action: PayloadAction<{ accessToken: string; refreshToken: string }>
-    ) {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
-    },
-    deleteTokens(state) {
-      state.accessToken = "";
-      state.refreshToken = "";
+    setIsAuthorized(state, action: PayloadAction<boolean>) {
+      state.isAuthorized = action.payload;
     },
   },
 });
 
-export const { saveTokens, deleteTokens } = authSlice.actions;
+export const { setIsAuthorized } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,12 +1,10 @@
 import { Typography, Layout, Spin, Alert, Button, Flex } from "antd";
-import { postRefreshToken } from "../../api/auth";
-import { getUserProfile, setAccessToken } from "../../api/user";
+import { refreshAccessToken } from "../../api/auth";
+import { getUserProfile, setAccessToken, getAccessToken } from "../../api/user";
 import { useEffect, useState } from "react";
-import { deleteTokens, saveTokens } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootStore } from "../../store/store";
+import { setIsAuthorized } from "../../store/authSlice";
 
 type ProfileData = {
   date: string;
@@ -34,13 +32,11 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const refreshToken = localStorage.getItem("refreshToken");
-
-  const accessToken = useSelector(
-    (state: RootStore) => state.autorisationTokens.accessToken
-  );
+  const accessToken = getAccessToken();
 
   function handleLogOut() {
-    dispatch(deleteTokens());
+    dispatch(setIsAuthorized(false));
+    setAccessToken("");
     localStorage.clear();
     navigate("/login");
   }
@@ -48,27 +44,21 @@ function ProfilePage() {
   const fetchProfileInfo = async () => {
     setLoading(true);
     try {
-      setAccessToken(accessToken);
-
       let data = await getUserProfile();
       if (typeof data === "string") {
         setError(data);
         try {
           const refreshToken = localStorage.getItem("refreshToken");
-          const tokensFromRefresh = await postRefreshToken(refreshToken);
+          const tokensFromRefresh = await refreshAccessToken(refreshToken);
           if (typeof tokensFromRefresh === "string") {
             setError(tokensFromRefresh);
-
-            dispatch(deleteTokens());
+            dispatch(setIsAuthorized(false));
+            setAccessToken("");
             localStorage.clear();
             return;
           }
-          dispatch(
-            saveTokens({
-              accessToken: tokensFromRefresh.accessToken,
-              refreshToken: tokensFromRefresh.refreshToken,
-            })
-          );
+
+          setAccessToken(tokensFromRefresh.accessToken);
           localStorage.setItem("refreshToken", tokensFromRefresh.refreshToken);
           setError(null);
           data = await getUserProfile();
