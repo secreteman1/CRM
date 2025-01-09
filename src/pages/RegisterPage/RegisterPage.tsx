@@ -7,6 +7,7 @@ import {
   Modal,
   Spin,
   Flex,
+  Space,
 } from "antd";
 import { Link } from "react-router-dom";
 import "./RegisterPage.scss";
@@ -295,15 +296,15 @@ function RegisterPage() {
           <Modal
             title={
               error ? (
-                <Flex gap="small">
+                <Space>
                   <CloseCircleTwoTone twoToneColor="#eb2f96" />
                   Ошибка
-                </Flex>
+                </Space>
               ) : (
-                <Flex gap="small">
+                <Space>
                   <CheckCircleTwoTone twoToneColor="#52c41a" />
                   Успех
-                </Flex>
+                </Space>
               )
             }
             open={isModalOpen}

@@ -5,6 +5,8 @@ import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import Layout from "./Layout.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
+import UsersPage from "./pages/UsersPage/UsersPage.tsx";
+import EditPage from "./pages/EditPage/EditPage.tsx";
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
             <Route index element={<Navigate to="/login" />} />
             <Route path="todos" element={<MainPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="users" element={<UsersPage />} />
           </Route>
+          <Route path="edit/:id" element={<EditPage />} />
         </Route>
       </Routes>
     </div>

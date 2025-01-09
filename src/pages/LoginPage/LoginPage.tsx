@@ -1,7 +1,16 @@
 import loginMainImage from "../../assets/loginMainImage.png";
 import loginSecondaryImage from "../../assets/loginSecondaryImage.png";
 import "./LoginPage.scss";
-import { Button, Form, Input, Typography, Checkbox, Modal, Spin } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Typography,
+  Checkbox,
+  Modal,
+  Spin,
+  Space,
+} from "antd";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -217,15 +226,15 @@ function LoginPage() {
           <Modal
             title={
               error ? (
-                <div className="modal-title-text">
+                <Space>
                   <CloseCircleTwoTone twoToneColor="#eb2f96" />
                   Ошибка
-                </div>
+                </Space>
               ) : (
-                <div className="modal-title-text">
+                <Space>
                   <CheckCircleTwoTone twoToneColor="#52c41a" />
                   Успех
-                </div>
+                </Space>
               )
             }
             open={isModalOpen}
