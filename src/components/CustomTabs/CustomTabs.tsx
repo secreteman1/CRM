@@ -1,12 +1,5 @@
 import { Tabs } from "antd";
-
-type QuantityInformation = {
-  all: number;
-  completed: number;
-  inWork: number;
-};
-
-type Category = "all" | "inWork" | "done";
+import { QuantityInformation, Category } from "../../types/types";
 
 const CustomTabs: React.FC<{
   category: string;

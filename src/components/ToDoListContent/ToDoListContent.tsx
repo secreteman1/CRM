@@ -4,7 +4,7 @@ import {
   putToDoTaskStatus,
   deleteToDoTask,
 } from "../../api/todo.js";
-import { Todo } from "../ToDoList/ToDoList.tsx";
+import { Todo } from "../../types/types.ts";
 import { Button, Checkbox, Input, Form } from "antd";
 import {
   DeleteOutlined,

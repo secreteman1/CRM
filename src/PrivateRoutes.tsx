@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { refreshAccessToken } from "./api/auth";
 
 import { setIsAuthorized } from "./store/authSlice";
-import { getUserProfile, setAccessToken } from "././api/user";
+import { setAccessToken, clearAccessToken } from "././api/admin";
+import { getUserProfile } from "././api/user";
 import { setIsAdmin } from "./store/adminSlice";
 
 const PrivateRoutes: React.FC = () => {
@@ -18,18 +19,11 @@ const PrivateRoutes: React.FC = () => {
   useEffect(() => {
     const checkAuthorization = async () => {
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) {
-          dispatch(setIsAuthorized(false));
-          dispatch(setIsAdmin(false));
-          setLoading(false);
-          return;
-        }
-        const tokensFromRefresh = await refreshAccessToken(refreshToken);
+        const tokensFromRefresh = await refreshAccessToken();
         if (typeof tokensFromRefresh === "string") {
           dispatch(setIsAuthorized(false));
           dispatch(setIsAdmin(false));
-          setAccessToken("");
+          clearAccessToken();
           localStorage.clear();
         } else {
           setAccessToken(tokensFromRefresh.accessToken);
@@ -46,7 +40,7 @@ const PrivateRoutes: React.FC = () => {
         console.log(error);
         dispatch(setIsAuthorized(false));
         dispatch(setIsAdmin(false));
-        setAccessToken("");
+        clearAccessToken();
         localStorage.clear();
       } finally {
         setLoading(false);

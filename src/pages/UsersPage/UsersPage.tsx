@@ -33,7 +33,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { MenuProps } from "antd";
 import { SortOrder } from "antd/es/table/interface";
-
+import { DataType } from "../../types/types.ts";
 function UsersPage() {
   const [users, setUsers] = useState<DataType[]>([
     {
@@ -222,16 +222,6 @@ function UsersPage() {
       await fetchAllUsers();
     })();
   }, [sortField, sortOrder, searchInput, filterData, currentPage, pageSize]);
-
-  interface DataType {
-    date: string;
-    email: string;
-    id: number;
-    isAdmin: boolean;
-    isBlocked: boolean;
-    phoneNumber: string;
-    username: string;
-  }
 
   const handleDeleteUser = (id: number) => {
     setUserId(id);

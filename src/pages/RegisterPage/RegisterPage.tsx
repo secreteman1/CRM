@@ -15,14 +15,16 @@ import { useState } from "react";
 import { registerProfile } from "../../api/auth";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { UserRegistration } from "../../types/types";
 
-type UserRegistration = {
-  login: string;
-  username: string;
-  password: string;
-  email: string;
-  phoneNumber: string;
-};
+const MIN_USERNAME_LENGTH = 1;
+const MAX_USERNAME_LENGTH = 60;
+
+const MIN_LOGIN_LENGTH = 2;
+const MAX_LOGIN_LENGTH = 60;
+
+const MIN_PASSWORD_LENGTH = 6;
+const MAX_PASSWORD_LENGTH = 60;
 
 function RegisterPage() {
   const [form] = Form.useForm();
@@ -89,12 +91,12 @@ function RegisterPage() {
                   message: "Неообходимо заполнить данное поле",
                 },
                 {
-                  min: 1,
-                  message: `Минимальное количество символов — 1`,
+                  min: MIN_USERNAME_LENGTH,
+                  message: `Минимальное количество символов — ${MIN_USERNAME_LENGTH}`,
                 },
                 {
-                  max: 60,
-                  message: `Максимальное количество символов — 60`,
+                  max: MAX_USERNAME_LENGTH,
+                  message: `Максимальное количество символов — ${MAX_USERNAME_LENGTH}`,
                 },
                 {
                   pattern: new RegExp(
@@ -122,12 +124,12 @@ function RegisterPage() {
                   message: "Неообходимо заполнить данное поле",
                 },
                 {
-                  min: 2,
-                  message: `Минимальное количество символов — 2`,
+                  min: MIN_LOGIN_LENGTH,
+                  message: `Минимальное количество символов — ${MIN_LOGIN_LENGTH}`,
                 },
                 {
-                  max: 60,
-                  message: `Максимальное количество символов — 60`,
+                  max: MAX_LOGIN_LENGTH,
+                  message: `Максимальное количество символов — ${MAX_LOGIN_LENGTH}`,
                 },
                 {
                   pattern: new RegExp(
@@ -155,12 +157,12 @@ function RegisterPage() {
                   message: "Неообходимо заполнить данное поле",
                 },
                 {
-                  min: 6,
-                  message: `Минимальное количество символов — 6`,
+                  min: MIN_PASSWORD_LENGTH,
+                  message: `Минимальное количество символов — ${MIN_PASSWORD_LENGTH}`,
                 },
                 {
-                  max: 60,
-                  message: `Максимальное количество символов — 60`,
+                  max: MAX_PASSWORD_LENGTH,
+                  message: `Максимальное количество символов — ${MAX_PASSWORD_LENGTH}`,
                 },
               ]}
             >

@@ -1,20 +1,16 @@
 import { Typography, Layout, Spin, Alert, Button, Flex } from "antd";
 import { refreshAccessToken } from "../../api/auth";
-import { getUserProfile, setAccessToken, getAccessToken } from "../../api/user";
+import {
+  setAccessToken,
+  getAccessToken,
+  clearAccessToken,
+} from "../../api/admin";
+import { getUserProfile } from "../../api/user";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setIsAuthorized } from "../../store/authSlice";
-
-type ProfileData = {
-  date: string;
-  email: string;
-  id: number;
-  isAdmin: boolean;
-  isBlocked: boolean;
-  phoneNumber: string;
-  username: string;
-};
+import { ProfileData } from "../../types/types";
 
 function ProfilePage() {
   const [profile, setProfile] = useState<ProfileData>({
@@ -31,12 +27,12 @@ function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const refreshToken = localStorage.getItem("refreshToken");
+
   const accessToken = getAccessToken();
 
   function handleLogOut() {
     dispatch(setIsAuthorized(false));
-    setAccessToken("");
+    clearAccessToken();
     localStorage.clear();
     navigate("/login");
   }
@@ -48,12 +44,11 @@ function ProfilePage() {
       if (typeof data === "string") {
         setError(data);
         try {
-          const refreshToken = localStorage.getItem("refreshToken");
-          const tokensFromRefresh = await refreshAccessToken(refreshToken);
+          const tokensFromRefresh = await refreshAccessToken();
           if (typeof tokensFromRefresh === "string") {
             setError(tokensFromRefresh);
             dispatch(setIsAuthorized(false));
-            setAccessToken("");
+            clearAccessToken();
             localStorage.clear();
             return;
           }
@@ -89,7 +84,7 @@ function ProfilePage() {
       await fetchProfileInfo();
     };
     fetchData();
-  }, [accessToken, refreshToken]);
+  }, [accessToken]);
 
   return (
     <Layout

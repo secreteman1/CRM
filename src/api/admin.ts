@@ -1,29 +1,33 @@
 import { instance } from "./todo";
+import { BasicUserData, RigthsData } from "../types/types";
 
-let accessToken: string | null = null;
+class AccessTokenManager {
+  #accessToken: string | null;
+  constructor() {
+    this.#accessToken = null;
+  }
+  setAccessToken(token: string) {
+    this.#accessToken = token;
+  }
 
-type BasicUserData = {
-  email: string;
-  phoneNumber: string;
-  username: string;
-};
-
-type RigthsData = {
-  field: string;
-  value: string;
-};
-
-export function setAccessToken(token: string) {
-  accessToken = token;
+  getAccessToken() {
+    return this.#accessToken;
+  }
+  clearAccessToken() {
+    this.#accessToken = null;
+  }
 }
 
-export function getAccessToken(): string | null {
-  return accessToken;
-}
+const tokenManager = new AccessTokenManager();
+
+export const getAccessToken = () => tokenManager.getAccessToken();
+export const setAccessToken = (token: string) =>
+  tokenManager.setAccessToken(token);
+export const clearAccessToken = () => tokenManager.clearAccessToken();
 
 instance.interceptors.request.use((config) => {
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+  if (tokenManager.getAccessToken()) {
+    config.headers.Authorization = `Bearer ${tokenManager.getAccessToken()}`;
   }
   return config;
 });

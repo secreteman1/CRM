@@ -6,12 +6,7 @@ import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getUser, putUser } from "../../api/admin";
-
-type BasicUserData = {
-  email: string;
-  phoneNumber: string;
-  username: string;
-};
+import { BasicUserData } from "../../types/types";
 
 function EditPage() {
   const [form] = Form.useForm();

@@ -18,7 +18,13 @@ import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { loginProfile } from "../../api/auth";
 import { useDispatch } from "react-redux";
 import { setIsAuthorized } from "../../store/authSlice";
-import { setAccessToken } from "../../api/user";
+import { setAccessToken } from "../../api/admin";
+import { UserLogin } from "../../types/types.ts";
+
+const MIN_LOGIN_LENGTH = 2;
+const MAX_LOGIN_LENGTH = 60;
+const MIN_PASSWORD_LENGTH = 6;
+const MAX_PASSWORD_LENGTH = 60;
 
 function LoginPage() {
   const [form] = Form.useForm();
@@ -41,11 +47,6 @@ function LoginPage() {
     }
   };
 
-  type UserLogin = {
-    login: string;
-    password: string;
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -60,6 +61,7 @@ function LoginPage() {
         setError(data);
         return;
       }
+
       dispatch(setIsAuthorized(true));
       setAccessToken(data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
@@ -121,12 +123,12 @@ function LoginPage() {
                   message: "Неообходимо заполнить данное поле",
                 },
                 {
-                  min: 2,
-                  message: `Минимальное количество символов — 2`,
+                  min: MIN_LOGIN_LENGTH,
+                  message: `Минимальное количество символов — ${MIN_LOGIN_LENGTH}`,
                 },
                 {
-                  max: 60,
-                  message: `Максимальное количество символов — 60`,
+                  max: MAX_LOGIN_LENGTH,
+                  message: `Максимальное количество символов — ${MAX_LOGIN_LENGTH}`,
                 },
                 {
                   pattern: new RegExp(
@@ -156,12 +158,12 @@ function LoginPage() {
                   message: "Неообходимо заполнить данное поле",
                 },
                 {
-                  min: 6,
-                  message: `Минимальное количество символов — 6`,
+                  min: MIN_PASSWORD_LENGTH,
+                  message: `Минимальное количество символов — ${MIN_PASSWORD_LENGTH}`,
                 },
                 {
-                  max: 60,
-                  message: `Максимальное количество символов — 60`,
+                  max: MAX_PASSWORD_LENGTH,
+                  message: `Максимальное количество символов — ${MAX_PASSWORD_LENGTH}`,
                 },
               ]}
             >

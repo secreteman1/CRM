@@ -4,21 +4,7 @@ import ToDoList from "../../components/ToDoList/ToDoList.tsx";
 import { useState, useEffect } from "react";
 import { getToDoList } from "../../api/todo.ts";
 import { Layout } from "antd";
-
-type Category = "all" | "inWork" | "done";
-
-type Todo = {
-  created: Date;
-  id: number;
-  isDone: boolean;
-  title: string;
-};
-
-type QuantityInformation = {
-  all: number;
-  completed: number;
-  inWork: number;
-};
+import { Category, Todo, QuantityInformation } from "../../types/types.ts";
 
 export const MIN_TITLE_LENGTH = 2;
 export const MAX_TITLE_LENGTH = 64;
@@ -74,6 +60,10 @@ function MainPage() {
       await fetchTodos();
     })();
   }, []);
+
+  // useEffect(async () => {
+  //   await fetchTodos();
+  // }, [category]);
 
   return (
     <Layout

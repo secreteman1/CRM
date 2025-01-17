@@ -1,6 +1,5 @@
 import { instance } from "./todo";
-import { UserRegistration } from "./model";
-import { UserLogin } from "./model";
+import { UserRegistration, UserLogin } from "../types/types";
 
 export async function registerProfile(value: UserRegistration) {
   try {
@@ -31,7 +30,8 @@ export async function loginProfile(value: UserLogin) {
   }
 }
 
-export async function refreshAccessToken(refreshToken: string | null) {
+export async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
   try {
     const response = await instance.post("/auth/refresh", {
       refreshToken: refreshToken,
