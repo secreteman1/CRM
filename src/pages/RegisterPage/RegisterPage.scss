@@ -1,0 +1,39 @@
+.main-register {
+  display: flex;
+  flex-direction: row;
+  background-color: #ffff;
+  border-radius: 4rem 4rem 4rem 4rem;
+  padding: 10px;
+  width: 675px;
+  height: 800px;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #f2f2fa;
+}
+
+.ant-layout {
+  background: #f2f2fa;
+  flex: none;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  color: #828282;
+  font-weight: 600;
+  font-size: 14px;
+  font: Nunito Sans;
+}
+
+.div-register-form-upper-text {
+  display: flex;
+  justify-content: center;
+  color: #828282;
+  font-weight: 600;
+  font-size: 36px;
+  font: Nunito Sans;
+  padding-top: 0px;
+  padding-bottom: 5px;
+  align-items: center;
+}
